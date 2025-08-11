@@ -1,5 +1,6 @@
 package tests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,17 +15,18 @@ public class LoginTest {
     private WebDriver driver;
     private LoginPage loginPage;
 
-    @BeforeAll
-    public void setupClass() {
-        System.setProperty("webdriver.chrome.driver",
-                "C:\\Users\\Josh\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
-    }
-
     @BeforeEach
     public void setup() {
+        // Setup chromedriver binary automatically
+        WebDriverManager.chromedriver().setup();
+
+        // Chrome options for CI environment
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--user-data-dir=C:\\Temp\\chrome-profile-" + System.currentTimeMillis());
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless"); // run in headless mode on CI
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data-" + System.currentTimeMillis()); // unique profile
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
@@ -34,11 +36,6 @@ public class LoginTest {
 
     @AfterEach
     public void teardown() {
-        try {
-            Thread.sleep(2000);  // pause so browser stays open briefly (2 seconds)
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (driver != null) {
             driver.quit();
         }
@@ -56,7 +53,6 @@ public class LoginTest {
     @DisplayName("Test invalid username - intentional failure")
     public void testInvalidUsername() {
         loginPage.login("wronguser", "password123");
-        // Intentionally asserting login success so test fails
         Assertions.assertTrue(loginPage.isLoginSuccessful(), "This test is supposed to fail!");
     }
 
@@ -64,7 +60,6 @@ public class LoginTest {
     @DisplayName("Test invalid password - intentional failure")
     public void testInvalidPassword() {
         loginPage.login("testuser", "wrongpassword");
-        // Intentionally asserting login success so test fails
         Assertions.assertTrue(loginPage.isLoginSuccessful(), "This test is supposed to fail!");
     }
 
