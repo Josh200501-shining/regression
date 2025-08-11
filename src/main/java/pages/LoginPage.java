@@ -5,45 +5,31 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage {
 
-    private final WebDriver driver;
-    private final String url = "https://your-login-page-url.com";  // replace with actual URL
+    private WebDriver driver;
 
-    // Locators
-    private final By usernameField = By.id("username");    // change according to your page
-    private final By passwordField = By.id("password");    // change according to your page
-    private final By loginButton = By.id("loginBtn");      // change according to your page
-    private final By errorMessage = By.id("errorMsg");     // change according to your page
-    private final By successIndicator = By.id("welcomeMsg"); // some element visible on successful login
+    private By usernameField = By.id("username");  // Change locator as per your page
+    private By passwordField = By.id("password");  // Change locator
+    private By loginButton = By.id("loginBtn");    // Change locator
+    private By successMessage = By.id("welcomeMsg"); // Or any element visible after login
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void open() {
-        driver.get(url);
+    public void enterUsername(String username) {
+        driver.findElement(usernameField).sendKeys(username);
     }
 
-    public void login(String username, String password) {
-        driver.findElement(usernameField).clear();
-        driver.findElement(usernameField).sendKeys(username);
-        driver.findElement(passwordField).clear();
+    public void enterPassword(String password) {
         driver.findElement(passwordField).sendKeys(password);
+    }
+
+    public void clickLogin() {
         driver.findElement(loginButton).click();
     }
 
     public boolean isLoginSuccessful() {
-        try {
-            return driver.findElement(successIndicator).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public boolean isLoginFailed() {
-        try {
-            return driver.findElement(errorMessage).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        // Simple check if success message displayed
+        return driver.findElements(successMessage).size() > 0;
     }
 }
