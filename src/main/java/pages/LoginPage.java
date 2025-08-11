@@ -14,8 +14,8 @@ public class LoginPage {
     private By usernameField = By.name("username");
     private By passwordField = By.name("password");
     private By loginButton = By.cssSelector("button[type='submit']");
-    private By successMessage = By.id("successMessage");
-    private By errorMessage = By.id("errorMessage");
+    private By successMessage = By.id("successMessage");   // Adjust as per your page
+    private By errorMessage = By.id("errorMessage");       // Adjust as per your page
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -37,7 +37,7 @@ public class LoginPage {
 
     public boolean isLoginSuccessful() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));  // Increased wait time
             wait.until(ExpectedConditions.visibilityOfElementLocated(successMessage));
             return true;
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class LoginPage {
 
     public boolean isLoginFailed() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));  // Increased wait time
             wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
             return true;
         } catch (Exception e) {

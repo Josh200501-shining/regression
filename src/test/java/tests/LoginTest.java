@@ -1,9 +1,9 @@
 package tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.LoginPage;
 
 import java.time.Duration;
@@ -14,10 +14,13 @@ public class LoginTest {
     private WebDriver driver;
     private LoginPage loginPage;
 
+    @BeforeAll
+    public void setupClass() {
+        WebDriverManager.chromedriver().setup();
+    }
+
     @BeforeEach
     public void setup() {
-        // Automatically download and setup ChromeDriver
-        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         loginPage = new LoginPage(driver);
@@ -26,11 +29,6 @@ public class LoginTest {
 
     @AfterEach
     public void teardown() {
-        try {
-            Thread.sleep(2000);  // pause 2 seconds so you can see the browser before it closes
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (driver != null) {
             driver.quit();
         }

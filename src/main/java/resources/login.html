@@ -80,13 +80,13 @@
 <body>
 <div class="login-container">
     <h2>Login Page</h2>
-    <form id="loginForm" action="#" method="POST" novalidate>
+    <form id="loginForm" novalidate>
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter username" required />
+        <input type="text" id="username" name="username" placeholder="Enter username" />
         <div id="usernameError" class="error-message">Please enter your username</div>
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter password" required />
+        <input type="password" id="password" name="password" placeholder="Enter password" />
         <div id="passwordError" class="error-message">Please enter your password</div>
 
         <button type="submit" id="loginBtn">Login</button>
@@ -105,9 +105,9 @@
     const errorMessage = document.getElementById('errorMessage');
 
     form.addEventListener('submit', function(event) {
-        event.preventDefault();  // prevent form from submitting and refreshing page
+        event.preventDefault();
 
-        // Hide all messages
+        // Reset messages
         usernameError.style.display = 'none';
         passwordError.style.display = 'none';
         successMessage.style.display = 'none';
