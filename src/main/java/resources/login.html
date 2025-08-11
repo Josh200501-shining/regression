@@ -6,71 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
-        }
-        .login-container {
-            max-width: 300px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            margin: 10px 0;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 8px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #message {
-            margin-top: 15px;
-            color: green;
-            font-weight: bold;
-            display: none;
-        }
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .error { color: red; display: none; }
+        .success { color: green; display: none; }
+        form { max-width: 300px; }
+        label { display: block; margin-top: 15px; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 8px; }
+        button { margin-top: 20px; padding: 10px; width: 100%; }
     </style>
+    <script>
+        function validateLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const welcomeMsg = document.getElementById('welcomeMsg');
+
+            errorMsg.style.display = 'none';
+            welcomeMsg.style.display = 'none';
+
+            if (!username || !password) {
+                errorMsg.textContent = 'Username and password are required.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Simple demo login check
+            if (username === 'testuser' && password === 'password123') {
+                welcomeMsg.textContent = 'Welcome, ' + username + '!';
+                welcomeMsg.style.display = 'block';
+                errorMsg.style.display = 'none';
+            } else {
+                errorMsg.textContent = 'Invalid username or password.';
+                errorMsg.style.display = 'block';
+                welcomeMsg.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
-<div class="login-container">
-    <h2>Login</h2>
-    <form id="loginForm" onsubmit="return validateLogin(event)">
-        <label for="username">Username:</label><br />
-        <input type="text" id="username" name="username" required /><br />
-        <label for="password">Password:</label><br />
-        <input type="password" id="password" name="password" required /><br />
-        <button type="submit" id="loginBtn">Login</button>
-    </form>
-    <div id="message">Login Successful!</div>
-</div>
 
-<script>
-    function validateLogin(event) {
-        event.preventDefault(); // prevent form submission
+<h2>Login</h2>
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+<form id="loginForm" onsubmit="validateLogin(event)">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" />
 
-        // Simple hardcoded validation - replace as needed
-        if (username === "admin" && password === "password123") {
-            document.getElementById('message').style.display = 'block';
-            return false;
-        } else {
-            alert('Invalid username or password');
-            return false;
-        }
-    }
-</script>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" />
+
+    <button type="submit" id="loginBtn">Login</button>
+
+    <p id="errorMsg" class="error"></p>
+    <p id="welcomeMsg" class="success"></p>
+</form>
+
 </body>
 </html>
