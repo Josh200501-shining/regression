@@ -3,7 +3,7 @@ package tests;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.LoginPage;
 
 import java.time.Duration;
@@ -16,12 +16,17 @@ public class LoginTest {
 
     @BeforeAll
     public void setupClass() {
-        WebDriverManager.chromedriver().setup();
+        System.setProperty("webdriver.chrome.driver",
+                "C:\\Users\\Josh\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
     }
 
     @BeforeEach
     public void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--user-data-dir=C:\\Temp\\chrome-profile-" + System.currentTimeMillis());
+
+        driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         loginPage = new LoginPage(driver);
         loginPage.open();
@@ -29,6 +34,11 @@ public class LoginTest {
 
     @AfterEach
     public void teardown() {
+        try {
+            Thread.sleep(2000);  // pause so browser stays open briefly (2 seconds)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (driver != null) {
             driver.quit();
         }
