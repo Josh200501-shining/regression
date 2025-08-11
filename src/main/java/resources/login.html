@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Project - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button#loginBtn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button#loginBtn:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: none;
+        }
+        #successMessage {
+            display: none;
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login Page</h2>
+    <form id="loginForm" action="#" method="POST" novalidate>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required />
+        <div id="usernameError" class="error-message">Please enter your username</div>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required />
+        <div id="passwordError" class="error-message">Please enter your password</div>
+
+        <button type="submit" id="loginBtn">Login</button>
+    </form>
+    <div id="successMessage">Login successful!</div>
+    <div id="errorMessage" class="error-message">Invalid username or password</div>
+</div>
+
+<script>
+    const form = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const usernameError = document.getElementById('usernameError');
+    const passwordError = document.getElementById('passwordError');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // prevent form from submitting and refreshing page
+
+        // Hide all messages
+        usernameError.style.display = 'none';
+        passwordError.style.display = 'none';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        let valid = true;
+
+        if (usernameInput.value.trim() === '') {
+            usernameError.style.display = 'block';
+            valid = false;
+        }
+        if (passwordInput.value.trim() === '') {
+            passwordError.style.display = 'block';
+            valid = false;
+        }
+
+        if (valid) {
+            if (usernameInput.value === 'testuser' && passwordInput.value === 'password123') {
+                successMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+    });
+</script>
+</body>
+</html>
